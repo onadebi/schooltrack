@@ -4,6 +4,8 @@ import AppRoutes from '../routes/AppRoutes';
 
 const NavBar: React.FC = () => {
     const [announcement, setAnnouncement] = React.useState<number>(1);
+    const searchBarRef = React.useRef<HTMLInputElement>(null);
+
     const navigate = useNavigate();
 
     const HandleOnClick = () => {
@@ -14,8 +16,8 @@ const NavBar: React.FC = () => {
     <div className='flex items-center justify-between p-4'>
         {/* Search */}
         <div className="hidden md:flex items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2">
-            <img src='/images/search.png' alt='Search' width={14} height={14} />
-            <input type='text' placeholder='Search...' className='w-[200px] p-2 bg-transparent outline-none' />
+            <img src='/images/search.png' alt='Search' width={14} height={14} onClick={() => searchBarRef.current?.focus()} />
+            <input ref={searchBarRef} type='text' placeholder='Search...' className='w-[200px] p-2 bg-transparent outline-none' />
         </div>
         {/* Icons and User options */}
         <div className="flex items-center gap-6 justify-end w-full">

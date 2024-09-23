@@ -118,7 +118,7 @@ const menuItems = [
 const Menu: React.FC = () => {
   return (
     <div className="">
-      {menuItems.map((menu, index) => (
+      {menuItems.map((menu) => (
         <div className="" key={menu.title}>
           <span className="hidden lg:block text-gray-400 font-light my-4">{menu.title}</span>
           {menu.items.map((item, index) => (

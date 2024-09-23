@@ -9,7 +9,7 @@ const AdminLayout: React.FC = () => {
   return (
     <>
       <MetaTag title="Dashboard Home" />
-      <div className="h-screen flex">
+      <div className=" flex ">
         <div className="w-[14%] md:w-[8%] lg:w-[16%] xl:w-[14%]">
           <Link
             to={AppRoutes().dashboard.home.parentRoute}
@@ -20,7 +20,7 @@ const AdminLayout: React.FC = () => {
           </Link>
           <Menu />
         </div>
-        <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] ">
+        <div className="w-[86%] md:w-[92%] lg:w-[84%] xl:w-[86%] bg-onaxOffWhite">
           <NavBar />
           <Outlet />
         </div>
