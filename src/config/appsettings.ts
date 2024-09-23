@@ -1,5 +1,5 @@
 const appsettings = {
-    appName: 'XRay GateKeeper',
+    appName: 'ONAX-SCM',
     env: 'development',
     Urls: {
         baseUrl: 'http://localhost:8080/api/v2/xray/',

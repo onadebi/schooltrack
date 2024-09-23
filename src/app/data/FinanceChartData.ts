@@ -1,4 +1,16 @@
-const FinanceChartData = (INCOME: number[], EXPENSES: number[]) => {
+import appsettings from "../../config/appsettings";
+
+export type FinanceChartDataType = {
+    income: number;
+    expenses: number;
+    months: string;
+};
+
+const FinanceChartData = (data : FinanceChartDataType[]) => {
+    console.log('Finance Data: ', data);
+    const INCOME = data.map((d) => d.income);
+    const EXPENSES = data.map((d) => d.expenses);
+    const MONTHS = data.map((d) => d.months);
     const options = {
         // title: {
         //   text: 'Finance Data'
@@ -14,11 +26,9 @@ const FinanceChartData = (INCOME: number[], EXPENSES: number[]) => {
             ],
             formatter: function (name: string) {
                 if (name.startsWith('Income')) {
-                    console.log('Income values: ', INCOME);
                     return `Income (Avg: ${(INCOME.reduce((sum, v) => sum + v, 0) / INCOME.length).toFixed(2)})`;
                 }
                 if (name.startsWith('Expenses')) {
-                    console.log('Expense values: ', EXPENSES);
                     return `Expense (Avg: ${(EXPENSES.reduce((sum, v) => sum + v, 0) / EXPENSES.length).toFixed(2)})`;
                 }
 
@@ -34,13 +44,15 @@ const FinanceChartData = (INCOME: number[], EXPENSES: number[]) => {
                 dataView: { readOnly: false },
                 magicType: { type: ['line', 'bar'] },
                 restore: {},
-                saveAsImage: {}
+                saveAsImage: {
+                    name: `${appsettings.appName}-Finance_Chart`, // Custom name for the downloaded file
+                }
             }
         },
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            data: MONTHS
         },
         yAxis: {
             type: 'value',

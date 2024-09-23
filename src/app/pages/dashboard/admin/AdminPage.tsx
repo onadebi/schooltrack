@@ -5,6 +5,8 @@ import ClientChartStats from "../../../models/dto/ClientChartStats";
 import UserTypeEnum from "../../../models/dto/UserTypeEnum";
 import AttendanceChart from "../../../../components/AttendanceChart";
 import FinanceChart from "../../../../components/FinanceChart";
+import EventCalender from "../../../../components/EventCalender";
+import Announcements from "../../../../components/Announcements";
 
 const AdminPage: React.FC = () => {
   const [dataStats, setDataStats] = React.useState<ClientChartStats[]>([]);
@@ -52,8 +54,9 @@ const AdminPage: React.FC = () => {
           </div>
         </section>
         {/* RIGHT SIDE SECTION */}
-        <section className="bg-blue-50 w-full lg:w-1/3">
-          <span>Aside page</span>
+        <section className="w-full lg:w-1/3 flex flex-col gap-8">
+            <EventCalender/>
+            <Announcements/>
         </section>
       </div>
     </>

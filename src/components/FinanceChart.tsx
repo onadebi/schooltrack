@@ -1,36 +1,41 @@
 import React from 'react';
 import ReactECharts from "echarts-for-react";
-import FinanceChartData from '../app/data/FinanceChartData';
+import FinanceChartData, { FinanceChartDataType } from '../app/data/FinanceChartData';
+import { useAppStore } from '../app/services/appservices';
 
 const FinanceChart: React.FC = () => {
 
-const { INCOME, EXPENSES } = React.useMemo(() => {
-    const incomeArray: number[] = [];
-    const expensesArray: number[] = [];
-    for(let i = 0; i < 12; i++) {
-        const income = Math.floor(Math.random() * 100);
-        incomeArray.push(income);
-        expensesArray.push(Math.floor(Math.random() * 10));
-    }
-    return { INCOME: incomeArray, EXPENSES: expensesArray };
-}, []);
-
+const { financeService, commonService } = useAppStore();
 const [financeData, setFinanceData] = React.useState<object>({});
 
-React.useEffect(() => {
-    setFinanceData(FinanceChartData(INCOME, EXPENSES));
-}, [EXPENSES, INCOME]);
+const fetchFinanceData = React.useCallback(async () => {
+    const startTime = performance.now(); // Start timing
+    try {
+      const data: FinanceChartDataType[] = await financeService.getFinanceData();
+      const financeData = FinanceChartData(data);
+      setFinanceData(financeData);
+      const endTime = performance.now(); // End timing
+      const fetchTime = endTime - startTime; // Calculate fetch time
+      console.log(`Fetch time: ${fetchTime} ms`);
+    } catch (error) {
+      commonService.LogError('Error fetching finance data: ', (error as Error).message);
+    }
+  }, [financeService, commonService]);
 
-// Define event handlers
-const onChartEvents = {
+  React.useEffect(() => {
+    fetchFinanceData();
+  }, [fetchFinanceData]);
+
+  // Define event handlers
+  const onChartEvents = {
     'restore': () => {
-        console.log('Chart has been restored to its original state.');
-        setFinanceData(FinanceChartData(INCOME, EXPENSES));
-        // You can add more logic here, such as resetting state or triggering other UI changes
+      console.log('Chart has been restored to its original state.');
+      fetchFinanceData();
+      // You can add more logic here, such as resetting state or triggering other UI changes
     },
     // You can handle more events here if needed
     // 'click': (params: any) => { console.log(params); },
-};
+  };
 
   return (
     <div className='bg-white rounded-xl w-full h-full p-4'>
