@@ -8,6 +8,7 @@ import { ClientPage } from "../app/pages/dashboard/client/ClientPage";
 import SupervisorPage from "../app/pages/dashboard/supervisor/SupervisorPage";
 import ParentPage from "../app/pages/dashboard/parent/ParentPage";
 import Dashboard from "../app/pages/dashboard/Dashboard";
+import StudentPage from "../app/pages/dashboard/client/StudentPage";
 // import AppRoutes from "./AppRoutes";
 
 const AppRouter = createBrowserRouter([
@@ -36,6 +37,10 @@ const AppRouter = createBrowserRouter([
             {
                 path: AppRoutes().dashboard.client.parentRoute,
                 element: <ClientPage/>
+            },
+            {
+                path: AppRoutes().dashboard.student.parentRoute,
+                element: <StudentPage/>
             },
             {
                 path: AppRoutes().dashboard.supervisor.parentRoute,

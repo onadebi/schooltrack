@@ -21,6 +21,10 @@ const AppRoutes = () => {
                 name: "Client",
                 parentRoute: "/dashboard/client"
             },
+            student: {
+                name: "Student",
+                parentRoute: "/dashboard/student"
+            },
             parent: {
                 name: "Parent",
                 parentRoute: "/dashboard/parent"

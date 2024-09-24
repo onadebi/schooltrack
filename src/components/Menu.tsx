@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { role } from "../app/data/lib/data";
 
 const menuItems = [
   {
@@ -121,12 +122,17 @@ const Menu: React.FC = () => {
       {menuItems.map((menu) => (
         <div className="" key={menu.title}>
           <span className="hidden lg:block text-gray-400 font-light my-4">{menu.title}</span>
-          {menu.items.map((item, index) => (
-            <NavLink to={item.href} className="flex items-center justify-center lg:justify-start gap-2 text-gray-500 py-2" key={index}>
-              <img src={item.icon} alt={item.label} width={20} height={20} />
-              <span className="hidden lg:block">{item.label}</span>
-            </NavLink>
-          ))}
+          {menu.items.map((item, index) => {
+            if(item.visible.includes(role)) {
+              return (
+                <NavLink to={item.href} className="flex items-center justify-center lg:justify-start gap-2 text-gray-500 py-2 md:px-2 rounded-md hover:bg-onaxSky" key={index}>
+                  <img src={item.icon} alt={item.label} width={20} height={20} />
+                  <span className="hidden lg:block">{item.label}</span>
+                </NavLink>
+              );
+            }
+            return null;
+          })}
         </div>
       ))}
     </div>
