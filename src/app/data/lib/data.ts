@@ -919,28 +919,34 @@ export const announcementsData = [
 // YOU SHOULD CHANGE THE DATES OF THE EVENTS TO THE CURRENT DATE TO SEE THE EVENTS ON THE CALENDAR
 export const calendarEvents = [
   {
+    title: "ONax",
+    allDay: false,
+    start: new Date(2024, 10, 26, 8, 0),
+    end: new Date(2024, 10, 26, 8, 45),
+  },
+  {
     title: "Math",
     allDay: false,
-    start: new Date(2024, 9, 12, 8, 0),
-    end: new Date(2024, 9, 12, 8, 45),
+    start: new Date(2024, 10, 12, 8, 0),
+    end: new Date(2024, 10, 12, 8, 45),
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2024, 9, 12, 9, 0),
-    end: new Date(2024, 9, 12, 9, 45),
+    start: new Date(2024, 10, 12, 9, 0),
+    end: new Date(2024, 10, 12, 9, 45),
   },
   {
-    title: "Biology",
+    title: "ONax",
     allDay: false,
-    start: new Date(2024, 9, 12, 10, 0),
-    end: new Date(2024, 9, 12, 10, 45),
+    start: new Date(2024, 10, 12, 10, 0),
+    end: new Date(2024, 10, 12, 10, 45),
   },
   {
     title: "Physics",
     allDay: false,
-    start: new Date(2024, 9, 12, 11, 0),
-    end: new Date(2024, 9, 12, 11, 45),
+    start: new Date(2024, 10, 12, 11, 0),
+    end: new Date(2024, 10, 12, 11, 45),
   },
   {
     title: "Chemistry",
@@ -982,38 +988,38 @@ export const calendarEvents = [
   {
     title: "Math",
     allDay: false,
-    start: new Date(2024, 10, 14, 8, 0),
-    end: new Date(2024, 10, 14, 8, 45),
+    start: new Date(2024, 9, 14, 8, 0),
+    end: new Date(2024, 9, 14, 8, 45),
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2024, 10, 14, 10, 0),
-    end: new Date(2024, 10, 14, 10, 45),
+    start: new Date(2024, 9, 14, 10, 0),
+    end: new Date(2024, 9, 14, 10, 45),
   },
 
   {
     title: "Chemistry",
     allDay: false,
-    start: new Date(2024, 10, 14, 13, 0),
-    end: new Date(2024, 10, 14, 13, 45),
+    start: new Date(2024, 9, 14, 13, 0),
+    end: new Date(2024, 9, 14, 13, 45),
   },
   {
     title: "History",
     allDay: false,
-    start: new Date(2024, 10, 14, 14, 0),
-    end: new Date(2024, 10, 13, 14, 45),
+    start: new Date(2024, 9, 14, 14, 0),
+    end: new Date(2024, 9, 13, 14, 45),
   },
   {
     title: "English",
     allDay: false,
-    start: new Date(2024, 10, 15, 9, 0),
-    end: new Date(2024, 10, 15, 9, 45),
+    start: new Date(2024, 9, 15, 9, 0),
+    end: new Date(2024, 9, 15, 9, 45),
   },
   {
     title: "Biology",
     allDay: false,
-    start: new Date(2024, 10, 15, 10, 0),
+    start: new Date(2024, 9, 15, 10, 0),
     end: new Date(2024, 10, 15, 10, 45),
   },
   {

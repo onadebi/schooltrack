@@ -19,11 +19,12 @@ const BigCalendar: React.FC = () => {
         startAccessor="start"
         endAccessor="end"
         style={{ height: '90%' }}
-        views={["work_week", "day"]}
+        views={["work_week", "day", "week"]}
         view={calView}
         onView={HandleViewChange}
         min={new Date(2020, 0, 1, 6, 0)}
         max={new Date(2020, 0, 1, 23, 0)}
+        onSelectEvent={(event) => console.info(event)}
       />
     </div>
   );

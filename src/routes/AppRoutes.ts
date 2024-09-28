@@ -17,6 +17,16 @@ const AppRoutes = () => {
                 name: "Supervisor",
                 parentRoute: "/dashboard/supervisor"
             },
+            teacher:{
+                teacherPage:{
+                    name: "Teacher",
+                    parentRoute: "/dashboard/teacher"
+                },
+                list:{
+                    name: "Teachers",
+                    parentRoute: "/dashboard/list/teachers"
+                }
+            },
             client: {
                 name: "Client",
                 parentRoute: "/dashboard/client"
@@ -29,6 +39,10 @@ const AppRoutes = () => {
                 name: "Parent",
                 parentRoute: "/dashboard/parent"
             },
+        },
+        notFound:{
+            name: "Not Found",
+            parentRoute: "/not-found"
         }
     }
 }

@@ -14,7 +14,7 @@ const menuItems = [
       {
         icon: "/images/teacher.png",
         label: "Teachers",
-        href: "/list/teachers",
+        href: "/dashboard/list/teachers",
         visible: ["admin", "teacher"],
       },
       {

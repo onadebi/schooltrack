@@ -44,7 +44,7 @@ const AdminPage: React.FC = () => {
               <CountPieChart dataStats={dataStats}/>
             </div>
             {/* ATTENDANCE CHART */}
-            <div className="w-full lg:w-2/3 h-min-[350px]" style={{zIndex:999}}>
+            <div className="w-full lg:w-2/3 h-min-[350px]" style={{zIndex:9}}>
               <AttendanceChart />
             </div>
           </div>

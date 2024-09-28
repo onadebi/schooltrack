@@ -9,6 +9,8 @@ import SupervisorPage from "../app/pages/dashboard/supervisor/SupervisorPage";
 import ParentPage from "../app/pages/dashboard/parent/ParentPage";
 import Dashboard from "../app/pages/dashboard/Dashboard";
 import StudentPage from "../app/pages/dashboard/client/StudentPage";
+import TeacherPage from "../app/pages/dashboard/supervisor/TeacherPage";
+import TeacherList from "../app/pages/dashboard/supervisor/Teacherlist";
 // import AppRoutes from "./AppRoutes";
 
 const AppRouter = createBrowserRouter([
@@ -43,6 +45,14 @@ const AppRouter = createBrowserRouter([
                 element: <StudentPage/>
             },
             {
+                path: AppRoutes().dashboard.teacher.teacherPage.parentRoute,
+                element: <TeacherPage/>
+            },
+            {
+                path: AppRoutes().dashboard.teacher.list.parentRoute,
+                element: <TeacherList/>
+            },
+            {
                 path: AppRoutes().dashboard.supervisor.parentRoute,
                 element: <SupervisorPage/>
             },
@@ -51,7 +61,11 @@ const AppRouter = createBrowserRouter([
                 element: <ParentPage/>
             },
         ]
-    }
+    },
+    {
+        path: '*',
+        element: <>Not FOund</>
+    },
 
 ]);
 

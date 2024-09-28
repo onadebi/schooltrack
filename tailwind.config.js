@@ -14,6 +14,9 @@ export default {
         onaxYellow: "#FAE27C",
         onaxYellowLight: "#FEFCE8",
         onaxOffWhite: "#ececec",
+        onaxGreenLight: "#f0fdf4",
+        onaxLavendarLight: "#dbdafe",
+        onaxLavendarDark: "#734f96",
       }
     },
   },
