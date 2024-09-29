@@ -33,11 +33,23 @@ const AppRoutes = () => {
             },
             student: {
                 name: "Student",
-                parentRoute: "/dashboard/student"
+                parentRoute: "/dashboard/student",
+                list:{
+                    name: "student",
+                    parentRoute: "/dashboard/list/students"
+                }
             },
             parent: {
                 name: "Parent",
-                parentRoute: "/dashboard/parent"
+                parentRoute: "/dashboard/parent",
+                list:{
+                    name: "parent",
+                    parentRoute: "/dashboard/list/parents"
+                }
+            },
+            subjects: {
+                name: "Subject",
+                parentRoute: "/dashboard/subjects",
             },
         },
         notFound:{

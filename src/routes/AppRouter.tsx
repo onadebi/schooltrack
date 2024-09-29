@@ -10,8 +10,10 @@ import ParentPage from "../app/pages/dashboard/parent/ParentPage";
 import Dashboard from "../app/pages/dashboard/Dashboard";
 import StudentPage from "../app/pages/dashboard/client/StudentPage";
 import TeacherPage from "../app/pages/dashboard/supervisor/TeacherPage";
-import TeacherList from "../app/pages/dashboard/supervisor/Teacherlist";
-// import AppRoutes from "./AppRoutes";
+import TeacherList from "../app/pages/dashboard/supervisor/TeacherList";
+import StudentListPage from "../app/pages/dashboard/client/StudentListPage";
+import ParentListPage from "../app/pages/dashboard/parent/ParentListPage";
+import SubjectsPageList from "../app/pages/dashboard/subjects/SubjectsPageList";
 
 const AppRouter = createBrowserRouter([
     {
@@ -45,6 +47,10 @@ const AppRouter = createBrowserRouter([
                 element: <StudentPage/>
             },
             {
+                path: AppRoutes().dashboard.student.list.parentRoute,
+                element: <StudentListPage/>
+            },
+            {
                 path: AppRoutes().dashboard.teacher.teacherPage.parentRoute,
                 element: <TeacherPage/>
             },
@@ -59,6 +65,14 @@ const AppRouter = createBrowserRouter([
             {
                 path: AppRoutes().dashboard.parent.parentRoute,
                 element: <ParentPage/>
+            },
+            {
+                path: AppRoutes().dashboard.parent.list.parentRoute,
+                element: <ParentListPage/>
+            },
+            {
+                path: AppRoutes().dashboard.subjects.parentRoute,
+                element: <SubjectsPageList/>
             },
         ]
     },

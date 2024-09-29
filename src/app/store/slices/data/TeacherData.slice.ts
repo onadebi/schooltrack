@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TeacherInfoType, teachersInitData } from "../../../models/dto/TeacherInfoType";
+import { TeacherInfoType } from "../../../models/dto/TeacherInfoType";
 import { appServices } from "../../../services/appservices";
 
+const initState: TeacherInfoType[] = await appServices.teacherService.getAllTeachers();
 
 export const TeacherDataSlice = createSlice({
     name: 'dataslice',
-    initialState: await appServices.teacherService.getAllTeachers(),
+    initialState: initState,
     reducers: {
         setAllTeachers: (state, action: PayloadAction<TeacherInfoType[]>) => {
             state = action.payload;

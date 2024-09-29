@@ -7,7 +7,7 @@ export type FinanceChartDataType = {
 };
 
 const FinanceChartData = (data : FinanceChartDataType[]) => {
-    console.log('Finance Data: ', data);
+    // console.log('Finance Data: ', data); //#INSPECT
     const INCOME = data.map((d) => d.income);
     const EXPENSES = data.map((d) => d.expenses);
     const MONTHS = data.map((d) => d.months);

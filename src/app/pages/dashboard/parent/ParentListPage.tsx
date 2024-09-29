@@ -3,23 +3,26 @@ import TableSearch from '../../../../components/TableSearch'
 import Pagination from '../../../../components/Pagination'
 import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
-import { TeacherInfoType } from '../../../models/dto/TeacherInfoType'
 import { Link } from 'react-router-dom'
 import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
-import { deleteTeacher } from '../../../store/slices/data/TeacherData.slice'
+import { StudentsInfoType } from '../../../models/dto/StudentInfoType'
+import { ParentInfoType } from '../../../models/dto/ParentInfoType'
+import { removeParent } from '../../../store/slices/data/ParentData.slice'
 
-const TeacherList: React.FC = () => {
+const ParentListPage: React.FC = () => {
 
-    const [teachers, setTeachers] = React.useState<TeacherInfoType[]>([]);
+    const [parents, setParents] = React.useState<ParentInfoType[]>([]);
     const dispatch = useDispatch();
-    const teachersData = useSelector((state: RootState) => state.teachers);
+    const parentsData = useSelector((state: RootState) => state.parents);
 
     React.useEffect(() => {
-        setTeachers(teachersData);
-    }, [dispatch, teachersData]);
+        dispatch(setLoading({display: true, message: 'Loading Parents/Guardians...'}));
+        setParents(parentsData);
+        dispatch(setLoading({display: false, message: ''}));
+    }, [dispatch, parentsData]);
 
     const columnHeaders =[
         {
@@ -27,20 +30,10 @@ const TeacherList: React.FC = () => {
             accessor: 'info'
         },
         {
-            header: 'Teacher ID',
-            accessor: 'teacherId',
+            header: 'Student Names',
+            accessor: 'studentNames',
             className: 'hidden md:table-cell'
-        },
-        {
-            header: 'Subjects',
-            accessor: 'subjects',
-            className: 'hidden md:table-cell'
-        },
-        {
-            header: 'Classes',
-            accessor: 'classes',
-            className: 'hidden md:table-cell'
-        },
+        },        
         {
             header: 'Phone',
             accessor: 'phone',
@@ -65,26 +58,22 @@ const TeacherList: React.FC = () => {
             dispatch(setLoading({display: true, message: `Deleting ${data?.[0]}...`}));
             //TODO: Remove time out and implement delete logic. Only used for similating API call
             setTimeout(() => {
-                dispatch(deleteTeacher(parseInt(data?.[1] as string)));
+                dispatch(removeParent(parseInt(data?.[1] as string)));
                 dispatch(setLoading({display: false, message: ''}));
-                // alert(`Deleted\n ${data?.[0]}`);
             },1200);
         }
     }
 
-    const renderRow =(item: TeacherInfoType): JSX.Element => {
+    const renderRow =(item: ParentInfoType): JSX.Element => {
         return (
             <tr key={item.id} className='border-b border-gray-200 even:bg-slate-50 hover:bg-onaxPurpleLight'>
                 <td className='flex items-center gap-4 p-4 '>
-                    <img src={`${item.photo}`} alt="" width={40} height={40} className='w-10 h-10 rounded-full object-cover md:hidden xl:block'/>
                     <div className='flex flex-col'>
                         <h3 className='font-semibold'>{item.name}</h3>
                         <p className='text-xs text-gray-500'>{item?.email}</p>
                     </div>
                 </td>
-                <td className='hidden md:table-cell'>{item.teacherId}</td>
-                <td className='hidden md:table-cell'>{item.subjects.join(', ')}</td>
-                <td className='hidden md:table-cell'>{item.classes.join(', ')}</td>
+                <td className='hidden md:table-cell'>{item.students.join(", ")}</td>
                 <td className='hidden md:table-cell'>{item.phone}</td>
                 <td className='hidden md:table-cell'>{item.address}</td>
                 <td>
@@ -112,7 +101,7 @@ const TeacherList: React.FC = () => {
     <div className='bg-white m-4 p-4 rounded-md flex-1 mt-0'>
         {/* TOP */}
         <div className="flex items-center justify-between">
-            <h1 className='hidden md:block text-lg font-semibold'>All Teachers</h1>
+            <h1 className='hidden md:block text-lg font-semibold'>Parents/Guardians</h1>
             <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
                 <TableSearch />
                 <div className="flex gap-4 items-center self-end">
@@ -124,11 +113,11 @@ const TeacherList: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={teachers.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={parents.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>
   )
 }
 
-export default TeacherList
+export default ParentListPage;

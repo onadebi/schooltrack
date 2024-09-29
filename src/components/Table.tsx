@@ -9,11 +9,11 @@ const Table: React.FC<IProps> = ({ column, data }) => {
   return (
     <>
       <div>
-        <table className="w-full mt-4">
-          <thead>
+        <table className="w-full mt-4 border">
+          <thead className="border-t border">
             <tr className="w-full text-left text-gray-500 text-sm">
               {column.map((col) => (
-                <th key={`${col.accessor}`} className={col.className}>{col.header}</th>
+                <th key={`${col.accessor}`} className={`border ${col.className}`}>{col.header}</th>
               ))}
             </tr>
           </thead>
