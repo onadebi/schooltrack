@@ -1,3 +1,6 @@
+import { announcementsData } from "../data/lib/data";
+import { AnnouncementsInfoType } from "../models/dto";
+
 export type AnnountcementType = {
     id: number;
     title: string;
@@ -13,6 +16,12 @@ export default class AnnouncementService {
             setTimeout(() => {
                 resolve(AnnouncementsData);
             }, 500);
+        });
+    }
+
+    fetchAllAnnouncement = async (): Promise<AnnouncementsInfoType[]> => {
+        return new Promise((resolve) => {
+            return resolve(announcementsData);
         });
     }
 }

@@ -8,7 +8,6 @@ import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
-import { StudentsInfoType } from '../../../models/dto/StudentInfoType'
 import { ParentInfoType } from '../../../models/dto/ParentInfoType'
 import { removeParent } from '../../../store/slices/data/ParentData.slice'
 
@@ -78,14 +77,14 @@ const ParentListPage: React.FC = () => {
                 <td className='hidden md:table-cell'>{item.address}</td>
                 <td>
                     <div className="flex items-center gap-2">
-                        <Link to={`${AppRoutes().dashboard.teacher.list.parentRoute}/${item.id}`}>
+                        <Link to={`${AppRoutes().dashboard.parents.parent.parentRoute.replace(':id',`${item.id}`)}`}>
                             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxSky">
-                                <img src={`/images/view.png`} alt={`View ${item.name}`} title={`View ${item.name}`} width={14} height={14}/>
+                                <img src={`/images/edit.png`} alt={`Edit ${item.name}`} title={`Edit ${item.name}`} width={14} height={14}/>
                             </button>
                         </Link>
                         {
                             role === 'admin' &&(
-                            <Link to={`${AppRoutes().dashboard.teacher.list.parentRoute}/${item.id}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
+                            <Link to={`${AppRoutes().dashboard.parents.parent.parentRoute.replace(':id',`${item.id}`)}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
                             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxPurple">
                                 <img src={`/images/delete.png`} alt={`Delete ${item.name}`} title={`Delete ${item.name}`} width={14} height={14}/>
                             </button>

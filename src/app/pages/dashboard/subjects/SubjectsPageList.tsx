@@ -25,13 +25,9 @@ const SubjectsPageList: React.FC = () => {
 
     const columnHeaders =[
         {
-            header: 'Info',
-            accessor: 'info'
-        },
-        {
-            header: 'Subject',
+            header: 'Subject Name',
             accessor: 'subject',
-            className: 'hidden md:table-cell'
+            className: ''
         },        
         {
             header: 'Teachers',
@@ -41,7 +37,7 @@ const SubjectsPageList: React.FC = () => {
         {
             header: 'Actions',
             accessor: 'actions',
-            className: 'hidden md:table-cell'
+            className: ''
         },
     ];
     const HandleDelete = (evt: FormEvent<HTMLElement>) => {
@@ -64,17 +60,14 @@ const SubjectsPageList: React.FC = () => {
                 <td className='flex items-center gap-4 p-4 '>
                     <div className='flex flex-col'>
                         <h3 className='font-semibold'>{item.name}</h3>
-                        {/* <p className='text-xs text-gray-500'>{item?.email}</p> */}
                     </div>
                 </td>
-                <td className='hidden md:table-cell'>{item.name}</td>
                 <td className='hidden md:table-cell'>{item.teachers.join(", ")}</td>
-                {/* <td className='hidden md:table-cell'>{item.address}</td> */}
                 <td>
                     <div className="flex items-center gap-2">
-                        <Link to={`${AppRoutes().dashboard.teacher.list.parentRoute}/${item.id}`}>
+                        <Link to={`${AppRoutes().dashboard.subjects.parentRoute}/${item.id}`}>
                             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxSky">
-                                <img src={`/images/view.png`} alt={`View ${item.name}`} title={`View ${item.name}`} width={14} height={14}/>
+                                <img src={`/images/edit.png`} alt={`Edit ${item.name}`} title={`Edit ${item.name}`} width={14} height={14}/>
                             </button>
                         </Link>
                         {

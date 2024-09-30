@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { role } from "../app/data/lib/data";
+import AppRoutes from "../routes/AppRoutes";
 
 const menuItems = [
   {
@@ -8,85 +9,85 @@ const menuItems = [
       {
         icon: "/images/home.png",
         label: "Home",
-        href: "/dashboard/home",
+        href: AppRoutes().dashboard.home.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/teacher.png",
         label: "Teachers",
-        href: "/dashboard/list/teachers",
+        href: AppRoutes().dashboard.teachers.parentRoute,
         visible: ["admin", "teacher"],
       },
       {
         icon: "/images/student.png",
         label: "Students",
-        href: "/dashboard/list/students",
+        href: AppRoutes().dashboard.students.parentRoute,
         visible: ["admin", "teacher"],
       },
       {
         icon: "/images/parent.png",
         label: "Parents",
-        href: "/dashboard/list/parents",
+        href: AppRoutes().dashboard.parents.parentRoute,
         visible: ["admin", "teacher"],
       },
       {
         icon: "/images/subject.png",
         label: "Subjects",
-        href: "/dashboard/subjects",
+        href: AppRoutes().dashboard.subjects.parentRoute,
         visible: ["admin"],
       },
       {
         icon: "/images/class.png",
         label: "Classes",
-        href: "/list/classes",
+        href: AppRoutes().dashboard.classes.parentRoute,
         visible: ["admin", "teacher"],
       },
       {
         icon: "/images/lesson.png",
         label: "Lessons",
-        href: "/list/lessons",
+        href: AppRoutes().dashboard.lessons.parentRoute,
         visible: ["admin", "teacher"],
       },
       {
         icon: "/images/exam.png",
         label: "Exams",
-        href: "/list/exams",
+        href: AppRoutes().dashboard.exams.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/assignment.png",
         label: "Assignments",
-        href: "/list/assignments",
+        href: AppRoutes().dashboard.assignments.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/result.png",
         label: "Results",
-        href: "/list/results",
+        href: AppRoutes().dashboard.results.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/attendance.png",
         label: "Attendance",
-        href: "/list/attendance",
+        href: AppRoutes().dashboard.attendance.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/calendar.png",
         label: "Events",
-        href: "/list/events",
+        href: AppRoutes().dashboard.events.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/message.png",
         label: "Messages",
-        href: "/list/messages",
+        href: AppRoutes().dashboard.messages.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
       {
         icon: "/images/announcement.png",
         label: "Announcements",
-        href: "/list/announcements",
+        href: AppRoutes().dashboard.announcements.parentRoute,
         visible: ["admin", "teacher", "student", "parent"],
       },
     ],
@@ -126,7 +127,7 @@ const Menu: React.FC = () => {
             if(item.visible.includes(role)) {
               return (
                 <NavLink to={item.href} className="flex items-center justify-center lg:justify-start gap-2 text-gray-500 py-2 md:px-2 rounded-md hover:bg-onaxSky" key={index}>
-                  <img src={item.icon} alt={item.label} width={20} height={20} />
+                  <img src={item.icon} alt={item.label} title={item.label} width={20} height={20} />
                   <span className="hidden lg:block">{item.label}</span>
                 </NavLink>
               );

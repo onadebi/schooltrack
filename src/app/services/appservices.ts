@@ -6,6 +6,12 @@ import TeacherService from "./teacher-service";
 import StudentService from "./student-service";
 import ParentService from "./parent-service";
 import SubjectsService from "./subjetcts-service";
+import ClassesService from "./classes-service";
+import LessonsService from "./lessons-service";
+import ExamService from "./exam-service";
+import AssignmentsService from "./assignments-service";
+import ResultsService from "./results-service";
+import EventsService from "./events-service";
 
 interface IAppServices {
     announcementService: AnnouncementService;
@@ -15,6 +21,12 @@ interface IAppServices {
     studentService: StudentService;
     parentService: ParentService;
     subjectsService: SubjectsService;
+    classesService: ClassesService;
+    lessonsService: LessonsService;
+    examService: ExamService;
+    assignmentsService: AssignmentsService;
+    resultsService: ResultsService;
+    eventsService: EventsService;
 }
 
 
@@ -26,6 +38,12 @@ export const appServices: IAppServices = {
     studentService: new StudentService(),
     parentService: new ParentService(),
     subjectsService: new SubjectsService(),
+    classesService: new ClassesService(),
+    lessonsService: new LessonsService(),
+    examService: new ExamService(),
+    assignmentsService: new AssignmentsService(),
+    resultsService: new ResultsService(),
+    eventsService: new EventsService(),
 };
 
 

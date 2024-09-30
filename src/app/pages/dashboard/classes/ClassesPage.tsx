@@ -3,58 +3,49 @@ import TableSearch from '../../../../components/TableSearch'
 import Pagination from '../../../../components/Pagination'
 import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
-import { TeacherInfoType } from '../../../models/dto/TeacherInfoType'
 import { Link } from 'react-router-dom'
 import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
-import { deleteTeacher } from '../../../store/slices/data/TeacherData.slice'
+import { ClassesInfoType } from '../../../models/dto/ClassesInfoType'
+import { removeClass } from '../../../store/slices/data/ClassesData.slice'
 
-const TeacherList: React.FC = () => {
+const ClassesPage: React.FC = () => {
 
-    const [teachers, setTeachers] = React.useState<TeacherInfoType[]>([]);
+    const [classes, setClasses] = React.useState<ClassesInfoType[]>([]);
     const dispatch = useDispatch();
-    const teachersData = useSelector((state: RootState) => state.teachers);
+    const classesData = useSelector((state: RootState) => state.classes);
 
     React.useEffect(() => {
-        setTeachers(teachersData);
-    }, [dispatch, teachersData]);
+        dispatch(setLoading({display: true, message: 'Loading Classes...'}));
+        setClasses(classesData);
+        dispatch(setLoading({display: false, message: ''}));
+    }, [dispatch, classesData]);
 
     const columnHeaders =[
         {
-            header: 'Info',
-            accessor: 'info'
+            header: 'Class Name',
+            accessor: 'className',
         },
         {
-            header: 'Teacher ID',
-            accessor: 'teacherId',
+            header: 'Capacity',
+            accessor: 'capacity',
             className: 'hidden md:table-cell'
-        },
+        },     
         {
-            header: 'Subjects',
-            accessor: 'subjects',
+            header: 'Grade',
+            accessor: 'grade',
             className: 'hidden md:table-cell'
-        },
+        },        
         {
-            header: 'Classes',
-            accessor: 'classes',
-            className: 'hidden md:table-cell'
-        },
-        {
-            header: 'Phone',
-            accessor: 'phone',
-            className: 'hidden md:table-cell'
-        },
-        {
-            header: 'Address',
-            accessor: 'address',
+            header: 'Supervisor',
+            accessor: 'supervisor',
             className: 'hidden md:table-cell'
         },
         {
             header: 'Actions',
             accessor: 'actions',
-            className: 'hidden md:table-cell'
         },
     ];
     const HandleDelete = (evt: FormEvent<HTMLElement>) => {
@@ -65,38 +56,33 @@ const TeacherList: React.FC = () => {
             dispatch(setLoading({display: true, message: `Deleting ${data?.[0]}...`}));
             //TODO: Remove time out and implement delete logic. Only used for similating API call
             setTimeout(() => {
-                dispatch(deleteTeacher(parseInt(data?.[1] as string)));
+                dispatch(removeClass(parseInt(data?.[1] as string)));
                 dispatch(setLoading({display: false, message: ''}));
-                // alert(`Deleted\n ${data?.[0]}`);
             },1200);
         }
     }
 
-    const renderRow =(item: TeacherInfoType): JSX.Element => {
+    const renderRow =(item: ClassesInfoType): JSX.Element => {
         return (
             <tr key={item.id} className='border-b border-gray-200 even:bg-slate-50 hover:bg-onaxPurpleLight'>
                 <td className='flex items-center gap-4 p-4 '>
-                    <img src={`${item.photo}`} alt="" width={40} height={40} className='w-10 h-10 rounded-full object-cover md:hidden xl:block'/>
                     <div className='flex flex-col'>
                         <h3 className='font-semibold'>{item.name}</h3>
-                        <p className='text-xs text-gray-500'>{item?.email}</p>
                     </div>
                 </td>
-                <td className='hidden md:table-cell'>{item.teacherId}</td>
-                <td className='hidden md:table-cell'>{item.subjects.join(', ')}</td>
-                <td className='hidden md:table-cell'>{item.classes.join(', ')}</td>
-                <td className='hidden md:table-cell'>{item.phone}</td>
-                <td className='hidden md:table-cell'>{item.address}</td>
+                <td className='hidden md:table-cell'>{item.capacity}</td>
+                <td className='hidden md:table-cell'>{item.grade}</td>
+                <td className='hidden md:table-cell'>{item.supervisor}</td>
                 <td>
                     <div className="flex items-center gap-2">
-                        <Link to={`${AppRoutes().dashboard.teachers.teacher.parentRoute.replace(':id',`${item.id}`)}`}>
+                        <Link to={`${AppRoutes().dashboard.classes.parentRoute}/${item.id}`}>
                             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxSky">
-                                <img src={`/images/view.png`} alt={`View ${item.name}`} title={`View ${item.name}`} width={14} height={14}/>
+                                <img src={`/images/edit.png`} alt={`Edit ${item.name}`} title={`Edit ${item.name}`} width={14} height={14}/>
                             </button>
                         </Link>
                         {
                             role === 'admin' &&(
-                            <Link to={`${AppRoutes().dashboard.teachers.teacher.parentRoute.replace(':id',`${item.id}`)}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
+                            <Link to={`${AppRoutes().dashboard.classes.parentRoute}/${item.id}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
                             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxPurple">
                                 <img src={`/images/delete.png`} alt={`Delete ${item.name}`} title={`Delete ${item.name}`} width={14} height={14}/>
                             </button>
@@ -112,7 +98,7 @@ const TeacherList: React.FC = () => {
     <div className='bg-white m-4 p-4 rounded-md flex-1 mt-0'>
         {/* TOP */}
         <div className="flex items-center justify-between">
-            <h1 className='hidden md:block text-lg font-semibold'>All Teachers</h1>
+            <h1 className='hidden md:block text-lg font-semibold'>Classes</h1>
             <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
                 <TableSearch />
                 <div className="flex gap-4 items-center self-end">
@@ -124,11 +110,12 @@ const TeacherList: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={teachers.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={classes.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>
   )
 }
 
-export default TeacherList
+
+export default ClassesPage;
