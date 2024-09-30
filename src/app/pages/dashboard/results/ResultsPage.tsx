@@ -1,15 +1,13 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import TableSearch from '../../../../components/TableSearch'
 import Pagination from '../../../../components/Pagination'
 import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
-import { Link } from 'react-router-dom'
-import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
 import { ResultsInfoType } from '../../../models/dto'
-import { removeResult } from '../../../store/slices/data/resultsDataSlice'
+import FormModal from '../../../../components/FormModal'
 
 const ResultsPage: React.FC = () => {
 
@@ -63,19 +61,6 @@ const ResultsPage: React.FC = () => {
             accessor: 'actions',
         },
     ];
-    const HandleDelete = (evt: FormEvent<HTMLElement>) => {
-        evt.preventDefault();
-        const data = evt.currentTarget.getAttribute('data-val')?.split('|');
-        const doDelete = confirm(`Confirm delete?\n ${data?.[0]}`);
-        if (doDelete) {
-            dispatch(setLoading({display: true, message: `Deleting ${data?.[0]}...`}));
-            //TODO: Remove time out and implement delete logic. Only used for similating API call
-            setTimeout(() => {
-                dispatch(removeResult(parseInt(data?.[1] as string)));
-                dispatch(setLoading({display: false, message: ''}));
-            },1200);
-        }
-    }
 
     const renderRow =(item: ResultsInfoType): JSX.Element => {
         return (
@@ -93,18 +78,18 @@ const ResultsPage: React.FC = () => {
                 {/* <td className='hidden md:table-cell'>{item.type}</td> */}
                 <td>
                     <div className="flex items-center gap-2">
-                        <Link to={`${AppRoutes().dashboard.results.parentRoute}/${item.id}`}>
+                        {/* <Link to={`${AppRoutes().dashboard.results.parentRoute}/${item.id}`}>
                             <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxSky">
                                 <img src={`/images/view.png`} alt={`View ${item.subject}`} title={`View ${item.subject}`} width={14} height={14}/>
                             </button>
-                        </Link>
+                        </Link> */}
                         {
-                            role === 'admin' &&(
-                            <Link to={`${AppRoutes().dashboard.results.parentRoute}/${item.id}`} onClick={HandleDelete} data-val={`${item.subject}|${item.id}`}>
-                            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxPurple">
-                                <img src={`/images/delete.png`} alt={`Delete ${item.subject}`} title={`Delete ${item.subject}`} width={14} height={14}/>
-                            </button>
-                        </Link>)
+                        role === 'admin' &&(
+                            <>
+                                <FormModal table='result' type='update' title={`Update result ${item.subject}`} id={item.id} data={item} />
+                                <FormModal table='result' id={item.id} type='delete' title={`Delete ${item.subject}`} />
+                            </>
+                        )
                         }
                     </div>
                 </td>
@@ -122,7 +107,9 @@ const ResultsPage: React.FC = () => {
                 <div className="flex gap-4 items-center self-end">
                     <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/filter.png`} alt="filter" title='filter' width={14} height={14}/></button>
                     <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/sort.png`} alt="sort" title='sort' width={14} height={14}/></button>
-                    {role === 'admin' && (<button className='rounded-full bg-onaxYellow p-2'><img src={`/images/plus.png`} alt="add" title='add' width={14} height={14}/></button>)}
+                    {role === 'admin' && (
+                        <FormModal table='result' type='create' title={`Add new result`} />
+                        )}
                 </div>
             </div>
         </div>

@@ -8,8 +8,8 @@ interface IProps {
 }
 
 const MetaTag: React.FC<IProps> = ({
-  title = `AutoData ${appsettings.appName}`,
-  description=`Monitoring and administration of ${appsettings.appName}`,
+  title = `ONX ${appsettings.appName}`,
+  description=`${appsettings.appName}`,
 }) => {
   return (
     <>

@@ -1,15 +1,13 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import TableSearch from '../../../../components/TableSearch'
 import Pagination from '../../../../components/Pagination'
 import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
-import { Link } from 'react-router-dom'
-import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
 import { SubjectInfoType } from '../../../models/dto/SubjectInfoType'
-import { removeSubject } from '../../../store/slices/data/SubjectData.slice'
+import FormModal from '../../../../components/FormModal'
 
 const SubjectsPageList: React.FC = () => {
 
@@ -40,19 +38,6 @@ const SubjectsPageList: React.FC = () => {
             className: ''
         },
     ];
-    const HandleDelete = (evt: FormEvent<HTMLElement>) => {
-        evt.preventDefault();
-        const data = evt.currentTarget.getAttribute('data-val')?.split('|');
-        const doDelete = confirm(`Confirm delete?\n ${data?.[0]}`);
-        if (doDelete) {
-            dispatch(setLoading({display: true, message: `Deleting ${data?.[0]}...`}));
-            //TODO: Remove time out and implement delete logic. Only used for similating API call
-            setTimeout(() => {
-                dispatch(removeSubject(parseInt(data?.[1] as string)));
-                dispatch(setLoading({display: false, message: ''}));
-            },1200);
-        }
-    }
 
     const renderRow =(item: SubjectInfoType): JSX.Element => {
         return (
@@ -65,18 +50,14 @@ const SubjectsPageList: React.FC = () => {
                 <td className='hidden md:table-cell'>{item.teachers.join(", ")}</td>
                 <td>
                     <div className="flex items-center gap-2">
-                        <Link to={`${AppRoutes().dashboard.subjects.parentRoute}/${item.id}`}>
-                            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxSky">
-                                <img src={`/images/edit.png`} alt={`Edit ${item.name}`} title={`Edit ${item.name}`} width={14} height={14}/>
-                            </button>
-                        </Link>
                         {
-                            role === 'admin' &&(
-                            <Link to={`${AppRoutes().dashboard.subjects.parentRoute}/${item.id}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
-                            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxPurple">
-                                <img src={`/images/delete.png`} alt={`Delete ${item.name}`} title={`Delete ${item.name}`} width={14} height={14}/>
-                            </button>
-                        </Link>)
+                        role === 'admin' &&
+                            (
+                                <>
+                                    <FormModal table='subject' type='update' title={`Update subject ${item.name}`} id={item.id} data={item} />
+                                    <FormModal table='subject' id={item.id} type='delete' title={`Delete ${item.name}`} />
+                                </>
+                            )
                         }
                     </div>
                 </td>
@@ -94,7 +75,7 @@ const SubjectsPageList: React.FC = () => {
                 <div className="flex gap-4 items-center self-end">
                     <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/filter.png`} alt="filter" title='filter' width={14} height={14}/></button>
                     <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/sort.png`} alt="sort" title='sort' width={14} height={14}/></button>
-                    {role === 'admin' && (<button className='rounded-full bg-onaxYellow p-2'><img src={`/images/plus.png`} alt="add" title='add' width={14} height={14}/></button>)}
+                    {role === 'admin' && (<FormModal table='subject' type='create' title={`Add new subject`} />)}
                 </div>
             </div>
         </div>

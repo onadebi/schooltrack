@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import TableSearch from '../../../../components/TableSearch'
 import Pagination from '../../../../components/Pagination'
 import Table from '../../../../components/Table'
@@ -8,8 +8,8 @@ import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
-import { deleteStudent } from '../../../store/slices/data/Studentdata.slice'
 import { StudentsInfoType } from '../../../models/dto/StudentInfoType'
+import FormModal from '../../../../components/FormModal'
 
 const StudentListPage: React.FC = () => {
 
@@ -54,19 +54,6 @@ const StudentListPage: React.FC = () => {
             className: 'hidden md:table-cell'
         },
     ];
-    const HandleDelete = (evt: FormEvent<HTMLElement>) => {
-        evt.preventDefault();
-        const data = evt.currentTarget.getAttribute('data-val')?.split('|');
-        const doDelete = confirm(`Confirm delete?\n ${data?.[0]}`);
-        if (doDelete) {
-            dispatch(setLoading({display: true, message: `Deleting ${data?.[0]}...`}));
-            //TODO: Remove time out and implement delete logic. Only used for similating API call
-            setTimeout(() => {
-                dispatch(deleteStudent(parseInt(data?.[1] as string)));
-                dispatch(setLoading({display: false, message: ''}));
-            },1200);
-        }
-    }
 
     const renderRow =(item: StudentsInfoType): JSX.Element => {
         return (
@@ -91,12 +78,7 @@ const StudentListPage: React.FC = () => {
                             </button>
                         </Link>
                         {
-                            role === 'admin' &&(
-                            <Link to={`${AppRoutes().dashboard.students.student.parentRoute.replace(':id',`${item.id}`)}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
-                            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxPurple">
-                                <img src={`/images/delete.png`} alt={`Delete ${item.name}`} title={`Delete ${item.name}`} width={14} height={14}/>
-                            </button>
-                        </Link>)
+                            role === 'admin' &&(<FormModal id={item.id} table='student' type='delete' title={`Delete ${item.name}`} />)
                         }
                     </div>
                 </td>
@@ -112,9 +94,9 @@ const StudentListPage: React.FC = () => {
             <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
                 <TableSearch />
                 <div className="flex gap-4 items-center self-end">
-                    <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/filter.png`} alt="filter" title='filter' width={14} height={14}/></button>
-                    <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/sort.png`} alt="sort" title='sort' width={14} height={14}/></button>
-                    {role === 'admin' && (<button className='rounded-full bg-onaxYellow p-2'><img src={`/images/plus.png`} alt="add" title='add' width={14} height={14}/></button>)}
+                    <button className='w-8 h-8 rounded-full bg-onaxYellow p-2'><img src={`/images/filter.png`} alt="filter" title='filter' width={14} height={14}/></button>
+                    <button className='w-8 h-8 rounded-full bg-onaxYellow p-2'><img src={`/images/sort.png`} alt="sort" title='sort' width={14} height={14}/></button>
+                    {role === 'admin' && (<FormModal table='student' type='create' title='Add new student' />)}
                 </div>
             </div>
         </div>

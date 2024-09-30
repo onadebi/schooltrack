@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react'
+import React from 'react'
 import TableSearch from '../../../../components/TableSearch'
 import Pagination from '../../../../components/Pagination'
 import Table from '../../../../components/Table'
@@ -7,9 +7,8 @@ import { TeacherInfoType } from '../../../models/dto/TeacherInfoType'
 import { Link } from 'react-router-dom'
 import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '../../../store/slices/common/Common.slice'
 import { RootState } from '../../../store/RootReducer'
-import { deleteTeacher } from '../../../store/slices/data/TeacherData.slice'
+import FormModal from '../../../../components/FormModal'
 
 const TeacherList: React.FC = () => {
 
@@ -57,20 +56,6 @@ const TeacherList: React.FC = () => {
             className: 'hidden md:table-cell'
         },
     ];
-    const HandleDelete = (evt: FormEvent<HTMLElement>) => {
-        evt.preventDefault();
-        const data = evt.currentTarget.getAttribute('data-val')?.split('|');
-        const doDelete = confirm(`Confirm delete?\n ${data?.[0]}`);
-        if (doDelete) {
-            dispatch(setLoading({display: true, message: `Deleting ${data?.[0]}...`}));
-            //TODO: Remove time out and implement delete logic. Only used for similating API call
-            setTimeout(() => {
-                dispatch(deleteTeacher(parseInt(data?.[1] as string)));
-                dispatch(setLoading({display: false, message: ''}));
-                // alert(`Deleted\n ${data?.[0]}`);
-            },1200);
-        }
-    }
 
     const renderRow =(item: TeacherInfoType): JSX.Element => {
         return (
@@ -95,12 +80,7 @@ const TeacherList: React.FC = () => {
                             </button>
                         </Link>
                         {
-                            role === 'admin' &&(
-                            <Link to={`${AppRoutes().dashboard.teachers.teacher.parentRoute.replace(':id',`${item.id}`)}`} onClick={HandleDelete} data-val={`${item.name}|${item.id}`}>
-                            <button className="w-7 h-7 flex items-center justify-center rounded-full bg-onaxPurple">
-                                <img src={`/images/delete.png`} alt={`Delete ${item.name}`} title={`Delete ${item.name}`} width={14} height={14}/>
-                            </button>
-                        </Link>)
+                            role === 'admin' &&(<FormModal id={item.id} table='teacher' type='delete' title={`Delete ${item.name}`} />)
                         }
                     </div>
                 </td>
@@ -118,7 +98,7 @@ const TeacherList: React.FC = () => {
                 <div className="flex gap-4 items-center self-end">
                     <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/filter.png`} alt="filter" title='filter' width={14} height={14}/></button>
                     <button className='rounded-full bg-onaxYellow p-2'><img src={`/images/sort.png`} alt="sort" title='sort' width={14} height={14}/></button>
-                    {role === 'admin' && (<button className='rounded-full bg-onaxYellow p-2'><img src={`/images/plus.png`} alt="add" title='add' width={14} height={14}/></button>)}
+                    {role === 'admin' && (<FormModal table='teacher' type='create' title='Add new teacher'/>)}
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ import PerformanceChart from "../../../../components/PerformanceChart";
 import { TeacherInfoType, teachersInitData } from "../../../models/dto/TeacherInfoType";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/RootReducer";
+import MetaTag from "../../../../components/MetaTag";
 
 interface IProps{
   image: string;
@@ -57,6 +58,8 @@ const TeacherDetail: React.FC = () => {
     setTeacher(teacherData);
   },[teacherData])
   return (
+    <>
+    <MetaTag title={`Teacher: ${teacher?.name}`} description={`Teacher details for ${teacher?.name}`} />
     <div className="flex flex-1 p-4 flex-col gap-4 xl:flex-row">
       <div className="w-full xl:w-2/3">
         {/* Top */}
@@ -124,6 +127,7 @@ const TeacherDetail: React.FC = () => {
       <Announcements/>    
       </div>
     </div>
+    </>
   );
 };
 
