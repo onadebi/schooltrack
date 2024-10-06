@@ -7,6 +7,7 @@ import { TeacherInfoType, teachersInitData } from "../../../models/dto/TeacherIn
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/RootReducer";
 import MetaTag from "../../../../components/MetaTag";
+import FormModal from "../../../../components/FormModal";
 
 interface IProps{
   image: string;
@@ -70,7 +71,10 @@ const TeacherDetail: React.FC = () => {
               <img src={`${teacher?.photo}`} width={144} height={144} title={teacher?.name} className="rounded-full lg:w-32 lg:h-32 object-cover"/>
             </div>
             <div className="w-2/3 flex flex-col justify-between gap-4">
+            <div className="flex justify-between">
                 <h2 className="font-semibold text-gray-700">{teacher?.name} ({teacher?.teacherId})</h2>
+                <FormModal table="teacher" type="update" id={teacher?.id} data={teacher} />
+            </div>
                 <section>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem provident explicabo 
                 </section>

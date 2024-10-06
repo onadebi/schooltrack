@@ -2,6 +2,8 @@ import React, { FormEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../app/store/slices/common/Common.slice';
 import { deleteTeacher } from '../app/store/slices/data/TeacherData.slice';
+import TeacherForm, { RegInput } from './TeacherForm';
+import StudentForm from './StudentForm';
 
 export interface IFormModalProps {
     table: "teacher" | "student" | "parent" | "subject" | "class" | "exam" | "lesson" | "assignment"| "result"| "attendance" |"event" | "announcement";
@@ -37,6 +39,12 @@ const FormModal: React.FC<IFormModalProps> = ({table, type, id, data, title}) =>
                 setOpen(false);
             }
         }
+        if(type === "create"){
+            if(table === "teacher" && data){
+                console.log('Creating new record');
+                
+            }
+        }
     }
 
     const HandleClick=(evt: React.MouseEvent<HTMLElement>)=>{
@@ -47,13 +55,62 @@ const FormModal: React.FC<IFormModalProps> = ({table, type, id, data, title}) =>
         }
     }
 
-    const FormDelete = ()=>{
-        return type === "delete" && id ? (
-            <form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
-                <span className='text-center font-medium'>Confirm {table} delete?</span>
-                <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
-            </form>
-        ): <>Create/Update</>;
+    const FormControl = ()=>{
+        if(table === "teacher"){
+            switch(type){
+                case "delete":
+                    return (id ?
+                        (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+                            <span className='text-center font-medium'>Confirm {table} delete?</span>
+                            <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+                        </form>):<></>
+                    );
+                case "create":
+                    return <TeacherForm type='create' data={data as RegInput}/>;
+                case "update":
+                    return <TeacherForm type='update' data={data as RegInput} id={id}/>;
+            };
+        }
+        else if(table === "student"){
+            switch(type){
+                case "delete":
+                    return (id ?
+                        (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+                            <span className='text-center font-medium'>Confirm {table} delete?</span>
+                            <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+                        </form>):<></>
+                    );
+                case "create":
+                    return <StudentForm type='create' data={data as RegInput}/>;
+                case "update":
+                    return <StudentForm type='update' data={data as RegInput} id={id}/>;
+            };
+        }
+        // else if(table === "parent"){
+
+        // }
+        else{
+            return <></>
+        }
+        // switch(type){
+        //     case "delete":
+        //         return (id ?
+        //             (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+        //                 <span className='text-center font-medium'>Confirm {table} delete?</span>
+        //                 <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+        //             </form>):<></>
+        //         );
+        //     case "create":
+        //         return <TeacherForm type='create' data={data as RegInput}/>;
+        //     case "update":
+        //         return <TeacherForm type='update' data={data as RegInput} id={id}/>;
+        // };
+        // return type === "delete" && id ? (
+        //     <form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+        //         <span className='text-center font-medium'>Confirm {table} delete?</span>
+        //         <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+        //     </form>
+        // ): <><TeacherForm type='create' data={data as RegInput}/></>;
     };
 
   return (
@@ -64,7 +121,7 @@ const FormModal: React.FC<IFormModalProps> = ({table, type, id, data, title}) =>
         {open &&(
             <div className="w-screen h-screen absolute top-0 left-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
                 <div className="bg-white p-4 rounded-md relative w-[90%] md:w-[70%] lg:w-[50%]">
-                    {FormDelete()}
+                    {FormControl()}
                     <div className="absolute top-4 right-4 cursor-pointer" onClick={()=>setOpen(false)}>
                         <img src="/images/close.png" alt="Close" title="Close" width={14} height={14} />
                     </div>
