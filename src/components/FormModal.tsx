@@ -1,9 +1,19 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent} from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../app/store/slices/common/Common.slice';
 import { deleteTeacher } from '../app/store/slices/data/TeacherData.slice';
-import TeacherForm, { RegInput } from './TeacherForm';
-import StudentForm from './StudentForm';
+import { RegInput } from './TeacherForm';
+import Dynamic from '../utils/Dynamic';
+
+const TeacherForm = Dynamic(() => import('./TeacherForm'),{fallback: <div>Loading...</div>});
+const StudentForm = Dynamic(() => import('./StudentForm'), {fallback: <div>Loading...</div>});
+
+const forms: {
+    [key: string] :(type: "create" | "update" , data?: object) => JSX.Element;
+}={
+    teacher: (type, data) => <TeacherForm table='teacher' type={type} data={data as RegInput}/>,
+    student: (type, data) => <StudentForm table='student' type={type} data={data as RegInput}/>
+}
 
 export interface IFormModalProps {
     table: "teacher" | "student" | "parent" | "subject" | "class" | "exam" | "lesson" | "assignment"| "result"| "attendance" |"event" | "announcement";
@@ -56,42 +66,43 @@ const FormModal: React.FC<IFormModalProps> = ({table, type, id, data, title}) =>
     }
 
     const FormControl = ()=>{
-        if(table === "teacher"){
-            switch(type){
-                case "delete":
-                    return (id ?
-                        (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
-                            <span className='text-center font-medium'>Confirm {table} delete?</span>
-                            <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
-                        </form>):<></>
-                    );
-                case "create":
-                    return <TeacherForm type='create' data={data as RegInput}/>;
-                case "update":
-                    return <TeacherForm type='update' data={data as RegInput} id={id}/>;
-            };
-        }
-        else if(table === "student"){
-            switch(type){
-                case "delete":
-                    return (id ?
-                        (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
-                            <span className='text-center font-medium'>Confirm {table} delete?</span>
-                            <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
-                        </form>):<></>
-                    );
-                case "create":
-                    return <StudentForm type='create' data={data as RegInput}/>;
-                case "update":
-                    return <StudentForm type='update' data={data as RegInput} id={id}/>;
-            };
-        }
-        // else if(table === "parent"){
-
+        // #region Other possible options
+        // if(table === "teacher"){
+        //     switch(type){
+        //         case "delete":
+        //             return (id ?
+        //                 (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+        //                     <span className='text-center font-medium'>Confirm {table} delete?</span>
+        //                     <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+        //                 </form>):<></>
+        //             );
+        //         case "create":
+        //             return <TeacherForm type='create' data={data as RegInput}/>;
+        //         case "update":
+        //             return <TeacherForm type='update' data={data as RegInput} id={id}/>;
+        //     };
         // }
-        else{
-            return <></>
-        }
+        // else if(table === "student"){
+        //     switch(type){
+        //         case "delete":
+        //             return (id ?
+        //                 (<form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+        //                     <span className='text-center font-medium'>Confirm {table} delete?</span>
+        //                     <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+        //                 </form>):<></>
+        //             );
+        //         case "create":
+        //             return <StudentForm type='create' data={data as RegInput}/>;
+        //         case "update":
+        //             return <StudentForm type='update' data={data as RegInput} id={id}/>;
+        //     };
+        // }
+        // // else if(table === "parent"){
+
+        // // }
+        // else{
+        //     return <></>
+        // }
         // switch(type){
         //     case "delete":
         //         return (id ?
@@ -105,12 +116,14 @@ const FormModal: React.FC<IFormModalProps> = ({table, type, id, data, title}) =>
         //     case "update":
         //         return <TeacherForm type='update' data={data as RegInput} id={id}/>;
         // };
-        // return type === "delete" && id ? (
-        //     <form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
-        //         <span className='text-center font-medium'>Confirm {table} delete?</span>
-        //         <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
-        //     </form>
-        // ): <><TeacherForm type='create' data={data as RegInput}/></>;
+        //#endregion
+        return type === "delete" && id ? (
+            <form action='' onSubmit={HandleSubmit} className='p-4 flex flex-col gap-4'>
+                <span className='text-center font-medium'>Confirm {table} delete?</span>
+                <button className='font-semibold bg-red-500 rounded-md w-max px-4 py-2 text-onaxOffWhite border-none self-center'>Delete</button>
+            </form>
+        ): type === "create" || type === "update" ? (forms[table](type, data)) 
+        : <div className='text-red-400'>Form not found!</div>;
     };
 
   return (
