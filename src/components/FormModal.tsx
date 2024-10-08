@@ -2,17 +2,41 @@ import React, { FormEvent} from 'react';
 import { useDispatch } from 'react-redux';
 import { setLoading } from '../app/store/slices/common/Common.slice';
 import { deleteTeacher } from '../app/store/slices/data/TeacherData.slice';
-import { RegInput } from './TeacherForm';
 import Dynamic from '../utils/Dynamic';
+import { RegInput } from './forms/schema';
 
-const TeacherForm = Dynamic(() => import('./TeacherForm'),{fallback: <div>Loading...</div>});
-const StudentForm = Dynamic(() => import('./StudentForm'), {fallback: <div>Loading...</div>});
+
+// Code splitting
+const TeacherForm = Dynamic(() => import('./forms/TeacherForm'),{fallback: <div>Loading...</div>});
+const StudentForm = Dynamic(() => import('./forms/StudentForm'), {fallback: <div>Loading...</div>});
+const ParentForm = Dynamic(() => import('./forms/ParentForm'), {fallback: <div>Loading...</div>});
+const SubjectForm = Dynamic(() => import('./forms/SubjectForm'), {fallback: <div>Loading...</div>});
+const ClassForm = Dynamic(() => import('./forms/ClassForm'), {fallback: <div>Loading...</div>});
+const LessonForm = Dynamic(() => import('./forms/LessonForm'), {fallback: <div>Loading...</div>});
+const ExamForm = Dynamic(() => import('./forms/ExamForm'), {fallback: <div>Loading...</div>});
+const AssignmentForm = Dynamic(() => import('./forms/AssignmentForm'), {fallback: <div>Loading...</div>});
+const ResultForm = Dynamic(() => import('./forms/ResultForm'), {fallback: <div>Loading...</div>});
+const AttendanceForm = Dynamic(() => import('./forms/AttendanceForm'), {fallback: <div>Loading...</div>});
+const EventForm = Dynamic(() => import('./forms/EventForm'), {fallback: <div>Loading...</div>});
+const AnnouncementForm = Dynamic(() => import('./forms/AnnouncementForm'), {fallback: <div>Loading...</div>});
+
+
 
 const forms: {
     [key: string] :(type: "create" | "update" , data?: object) => JSX.Element;
 }={
     teacher: (type, data) => <TeacherForm table='teacher' type={type} data={data as RegInput}/>,
-    student: (type, data) => <StudentForm table='student' type={type} data={data as RegInput}/>
+    student: (type, data) => <StudentForm table='student' type={type} data={data as RegInput}/>,
+    parent: (type, data) => <ParentForm table='parent' type={type} data={data as RegInput}/>,
+    subject: (type, data) => <SubjectForm table='subject' type={type} data={data as RegInput}/>,
+    class: (type, data) => <ClassForm table='class' type={type} data={data as RegInput}/>,
+    lesson: (type, data) => <LessonForm table='lesson' type={type} data={data as RegInput}/>,
+    exam: (type, data) => <ExamForm table='exam' type={type} data={data as RegInput}/>,
+    assignment: (type, data) => <AssignmentForm table='assignment' type={type} data={data as RegInput}/>,
+    result: (type, data) => <ResultForm table='result' type={type} data={data as RegInput}/>,
+    attendance: (type, data) => <AttendanceForm table='attendance' type={type} data={data as RegInput}/>,
+    event: (type, data) => <EventForm table='event' type={type} data={data as RegInput}/>,
+    announcement: (type, data) => <AnnouncementForm table='announcement' type={type} data={data as RegInput}/>,
 }
 
 export interface IFormModalProps {
