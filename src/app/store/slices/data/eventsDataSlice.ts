@@ -1,12 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { EventsInfoType } from "../../../models/dto";
 import { appServices } from "../../../services/appservices";
 
-const initialState: EventsInfoType[] = await appServices.eventsService.getAllEvents();
+export const fetchAllEvents = createAsyncThunk(
+    'events/fetchAll',
+    async () => {
+        const response = await appServices.eventsService.getAllEvents();
+        return response;
+    }
+);
+
 
 const eventsDataSlice = createSlice({
     name: 'eventsDataSlice',
-    initialState,
+    initialState: [] as EventsInfoType[],
     reducers:{
         getAllEvents: (state, action: PayloadAction<EventsInfoType[]>) => {
             state = action.payload;
@@ -19,6 +26,18 @@ const eventsDataSlice = createSlice({
             const index = state.findIndex((event) => event.id === action.payload.id);
             state[index] = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllEvents.pending, (state) => {
+            console.log('Loading events...', state);
+        })
+        .addCase(fetchAllEvents.fulfilled, (state, action) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllEvents.rejected, (_state, action) => {
+            console.log(action.error);
+        });
     }
 });
 

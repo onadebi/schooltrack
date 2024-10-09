@@ -1,12 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ParentInfoType } from "../../../models/dto/ParentInfoType";
 import { appServices } from "../../../services/appservices";
 
-const initialState: ParentInfoType[] = await appServices.parentService.getAllParents();
+export const fetchAllParents = createAsyncThunk(
+    'parents/fetchAll',
+    async () => {
+        const response = await appServices.parentService.getAllParents();
+        return response;
+    }
+)
+
 
 export const ParentDataSlice = createSlice({
     name: 'parentdataslice',
-    initialState,
+    initialState: [] as ParentInfoType[],
     reducers:{
         setAllParents: (state, action) => {
             state = action.payload;
@@ -23,6 +30,18 @@ export const ParentDataSlice = createSlice({
             state = state.filter((x) => x.id !== action.payload);
             return state;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllParents.pending, (state) => {
+            console.log('Loading parents...', state);
+        })
+        .addCase(fetchAllParents.fulfilled, (state, action) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllParents.rejected, (_state, action) => {
+            console.log(action.error);
+        });
     }
 });
 

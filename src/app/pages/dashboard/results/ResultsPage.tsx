@@ -5,19 +5,19 @@ import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { ResultsInfoType } from '../../../models/dto'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllResults } from '../../../store/slices/data/resultsDataSlice'
 
 const ResultsPage: React.FC = () => {
 
-    const [examResults, setExamResults] = React.useState<ResultsInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const examsData = useSelector((state: RootState) => state.results);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading results...'}));
-        setExamResults(examsData);
+        dispatch(fetchAllResults());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, examsData]);
 
@@ -115,7 +115,7 @@ const ResultsPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={examResults.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={examsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

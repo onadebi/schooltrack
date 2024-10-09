@@ -26,5 +26,3 @@ export const RootReducer = combineReducers({
     events: EventsDataReducer,
     announcements: AnnouncementDataReducer,
 });
-
-export type RootState = ReturnType<typeof RootReducer>;

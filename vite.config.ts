@@ -6,5 +6,9 @@ export default defineConfig({
   server:{
     port: 4500,
   },
+  build:{
+    outDir: '../wwwroot',
+    emptyOutDir: true,
+  },
   plugins: [react()],
 })

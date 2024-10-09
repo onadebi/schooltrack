@@ -7,18 +7,18 @@ import Pagination from '../../../components/Pagination';
 import Table from '../../../components/Table';
 import TableSearch from '../../../components/TableSearch';
 import { role } from '../../data/lib/data';
-import { RootState } from '../../store/RootReducer';
 import FormModal from '../../../components/FormModal';
+import { AppDispatch, RootState } from '../../store/storeKeeper';
+import { fetchAllEvents } from '../../store/slices/data/eventsDataSlice';
 
 const EventsPage: React.FC = () => {
 
-    const [eventsData, setEventsData] = React.useState<EventsInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const examsData = useSelector((state: RootState) => state.events);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading events...'}));
-        setEventsData(examsData);
+        dispatch(fetchAllEvents());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, examsData]);
 
@@ -104,7 +104,7 @@ const EventsPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={eventsData.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={examsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

@@ -1,10 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { appServices } from "../../../services/appservices";
 import { ClassesInfoType } from "../../../models/dto/ClassesInfoType";
 
+export const fetchAllClasses = createAsyncThunk(
+    'classes/fetchAll',
+    async () => {
+        const response = await appServices.classesService.getAllClasses();
+        return response;
+    }
+);
+
+
 export const ClassesDataSlice = createSlice({
     name: 'classesDataSlice',
-    initialState: await appServices.classesService.getAllClasses(),
+    initialState: [] as ClassesInfoType[],
     reducers: {
         setAllClasses: (state, action: PayloadAction<ClassesInfoType[]>) => {
             state = action.payload;
@@ -18,11 +27,21 @@ export const ClassesDataSlice = createSlice({
             state[index] = action.payload;
         },
         removeClass: (state, action: PayloadAction<number>) => {
-            state = state.filter((x) => x.id !== action.payload);
-            return state;
+            return state.filter((x) => x.id !== action.payload);
         }
-    }
-
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllClasses.pending, (state) => {
+            console.log('Loading classes...', state);
+        })
+        .addCase(fetchAllClasses.fulfilled, (state, action) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllClasses.rejected, (_state, action) => {
+            console.log(action.error);
+        });
+    },
 });
 
 export const {setAllClasses, removeClass} = ClassesDataSlice.actions;

@@ -1,12 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ExamInfoType } from "../../../models/dto/ExamInfoType";
 import { appServices } from "../../../services/appservices";
 
-export const initialState: ExamInfoType[] = await appServices.examService.getAllExams();
+export const fetchAllExams = createAsyncThunk(
+    'exams/fetchAll',
+    async () => {
+        const response = await appServices.examService.getAllExams();
+        return response;
+    }
+);
 
 export const ExamDataSlice = createSlice({
     name: 'examDataSlice',
-    initialState,
+    initialState: [] as ExamInfoType[],
     reducers: {
         setAllExams: (state, action: PayloadAction<ExamInfoType[]>) => {
             state = action.payload;
@@ -23,6 +29,18 @@ export const ExamDataSlice = createSlice({
             state = state.filter((x) => x.id !== action.payload);
             return state;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllExams.pending, (state) => {
+            console.log('Loading exams...', state);
+        })
+        .addCase(fetchAllExams.fulfilled, (state, action) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllExams.rejected, (_state, action) => {
+            console.log(action.error);
+        });
     }
 });
 

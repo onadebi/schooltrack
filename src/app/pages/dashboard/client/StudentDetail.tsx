@@ -4,10 +4,10 @@ import BigCalendar from "../../../../components/BigCalendar";
 import Announcements from "../../../../components/Announcements";
 import PerformanceChart from "../../../../components/PerformanceChart";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/RootReducer";
 import { StudentsInfoType, studentsInitData } from "../../../models/dto/StudentInfoType";
 import MetaTag from "../../../../components/MetaTag";
 import FormModal from "../../../../components/FormModal";
+import { RootState } from "../../../store/storeKeeper";
 
 interface IProps{
   image: string;

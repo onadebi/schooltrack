@@ -7,19 +7,19 @@ import { Link } from 'react-router-dom'
 import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { StudentsInfoType } from '../../../models/dto/StudentInfoType'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllStudents } from '../../../store/slices/data/Studentdata.slice'
 
 const StudentListPage: React.FC = () => {
 
-    const [students, setStudents] = React.useState<StudentsInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const studentsData = useSelector((state: RootState) => state.students);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading Students...'}));
-        setStudents(studentsData);
+        dispatch(fetchAllStudents());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, studentsData]);
 
@@ -102,7 +102,7 @@ const StudentListPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={students.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={studentsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

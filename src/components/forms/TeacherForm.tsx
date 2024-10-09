@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormInputField from '../FormInputField';
 import { RegInput, schema } from './schema';
+import appsettings from '../../config/appsettings';
   
 interface IPropsTeacherForm {
     type: "create" | "update";
@@ -68,7 +69,7 @@ const {
           
           <FormInputField label='Address' type='text' register={register} name='address' error={errors.address} defaultValue={data?.address} inputProps={{placeholder: 'address'}}/>
           <FormInputField label='Blood Type' type='text' register={register} name='bloodType' error={errors.bloodType} defaultValue={data?.bloodType} inputProps={{placeholder: 'Blood Type'}}/>
-          <FormInputField label='Birthday' type='date' register={register} name='birthday' error={errors.birthday} defaultValue={data?.birthday ? data.birthday.toISOString().split('T')[0] : undefined} inputProps={{placeholder: 'Birthday'}}/>
+          <FormInputField label='Birthday' type='date' register={register} name='birthday' error={errors.birthday} defaultValue={data?.birthday ? data.birthday : appsettings.functions.FuturDate()} inputProps={{placeholder: 'Birthday'}}/>
           <div className='flex flex-col gap-2 md:w-1/4'>
               <label htmlFor={data?.sex} className='text-xs text-gray-500'>Gender</label>
               <select {...register("sex")} defaultValue={data?.sex} className='ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full'>

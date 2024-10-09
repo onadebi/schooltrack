@@ -5,19 +5,19 @@ import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { AnnouncementsInfoType } from '../../../models/dto'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllAnnouncements } from '../../../store/slices/data/AnnouncementData.slice'
 
 const AnnouncementsPage: React.FC = () => {
 
-    const [announcements, setAnnouncements] = React.useState<AnnouncementsInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const announcementsData = useSelector((state: RootState) => state.announcements);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading announcements...'}));
-        setAnnouncements(announcementsData);
+        dispatch(fetchAllAnnouncements());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, announcementsData]);
 
@@ -88,7 +88,7 @@ const AnnouncementsPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={announcements.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={announcementsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

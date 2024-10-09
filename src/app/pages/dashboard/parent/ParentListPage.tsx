@@ -5,19 +5,19 @@ import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { ParentInfoType } from '../../../models/dto/ParentInfoType'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllParents } from '../../../store/slices/data/ParentData.slice'
 
 const ParentListPage: React.FC = () => {
 
-    const [parents, setParents] = React.useState<ParentInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const parentsData = useSelector((state: RootState) => state.parents);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading Parents/Guardians...'}));
-        setParents(parentsData);
+        dispatch(fetchAllParents());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, parentsData]);
 
@@ -97,7 +97,7 @@ const ParentListPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={parents.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={parentsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

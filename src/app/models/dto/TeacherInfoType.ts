@@ -2,7 +2,7 @@ export type TeacherInfoType = {
     id: number,
     teacherId: string,
     name: string,
-    password: string;
+    password?: string;
     email?: string,
     photo: string,
     phone?: string,

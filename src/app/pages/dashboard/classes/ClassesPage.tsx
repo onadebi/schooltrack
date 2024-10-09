@@ -5,19 +5,19 @@ import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { ClassesInfoType } from '../../../models/dto/ClassesInfoType'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllClasses } from '../../../store/slices/data/ClassesData.slice'
 
 const ClassesPage: React.FC = () => {
 
-    const [classes, setClasses] = React.useState<ClassesInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const classesData = useSelector((state: RootState) => state.classes);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading Classes...'}));
-        setClasses(classesData);
+        dispatch(fetchAllClasses());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, classesData]);
 
@@ -92,7 +92,7 @@ const ClassesPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={classes.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={classesData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

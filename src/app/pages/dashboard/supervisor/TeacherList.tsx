@@ -7,18 +7,19 @@ import { TeacherInfoType } from '../../../models/dto/TeacherInfoType'
 import { Link } from 'react-router-dom'
 import AppRoutes from '../../../../routes/AppRoutes'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../store/RootReducer'
+// import { RootState } from '../../../store/RootReducer'
 import FormModal from '../../../../components/FormModal'
+import { fetchAllTeachers } from '../../../store/slices/data/TeacherData.slice'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
 
 const TeacherList: React.FC = () => {
 
-    const [teachers, setTeachers] = React.useState<TeacherInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const teachersData = useSelector((state: RootState) => state.teachers);
 
     React.useEffect(() => {
-        setTeachers(teachersData);
-    }, [dispatch, teachersData]);
+        dispatch(fetchAllTeachers());
+    }, [dispatch]);
 
     const columnHeaders =[
         {
@@ -104,7 +105,7 @@ const TeacherList: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={teachers.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={teachersData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

@@ -1,12 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ActionReducerMapBuilder, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { appServices } from "../../../services/appservices";
 import { ResultsInfoType } from "../../../models/dto";
 
-const initialState: ResultsInfoType[] = await appServices.resultsService.getAllResults();
+export const fetchAllResults = createAsyncThunk(
+    'results/fetchAll',
+    async () => {
+        const response = await appServices.resultsService.getAllResults();
+        return response;
+    }
+);
 
 const resultsDataSlice = createSlice({
     name: 'resultsDataSlice',
-    initialState,
+    initialState: [] as ResultsInfoType[],
     reducers:{
         setAllResults: (state, action: PayloadAction<ResultsInfoType[]>) => {
             state = action.payload;
@@ -23,6 +29,18 @@ const resultsDataSlice = createSlice({
             state = state.filter((x) => x.id !== action.payload);
             return state;
         }
+    },
+    extraReducers: (builder: ActionReducerMapBuilder<ResultsInfoType[]>) => {
+        builder.addCase(fetchAllResults.pending, (state) => {
+            console.log('Loading results...', state);
+        })
+        .addCase(fetchAllResults.fulfilled, (state, action) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllResults.rejected, (_state, action) => {
+            console.log(action.error);
+        });
     }
 });
 

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-const AttendancePage = () => {
+const AttendancePage:React.FC = () => {
   return (
     <div>AttendancePage</div>
   )

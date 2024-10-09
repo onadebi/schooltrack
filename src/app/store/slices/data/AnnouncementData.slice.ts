@@ -1,12 +1,18 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AnnouncementsInfoType } from "../../../models/dto";
 import { appServices } from "../../../services/appservices";
 
-const initialState: AnnouncementsInfoType[] = await appServices.announcementService.fetchAllAnnouncement();
+export const fetchAllAnnouncements = createAsyncThunk(
+    'announcements/fetchAll',
+    async () => {
+        const response = await appServices.announcementService.fetchAllAnnouncement();
+        return response;
+    }
+);
 
 const AnnouncementDataSlice = createSlice({
     name: 'announcementDataSlice',
-    initialState,
+    initialState: [] as AnnouncementsInfoType[],
     reducers:{
         setAnnouncements: (state, action: PayloadAction<AnnouncementsInfoType[]>) => {
             state = action.payload;
@@ -21,6 +27,18 @@ const AnnouncementDataSlice = createSlice({
                 state[index] = action.payload;
             }
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllAnnouncements.pending, (state) => {
+            console.log('Loading announcements...', state);
+        })
+        .addCase(fetchAllAnnouncements.fulfilled, (state, action) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllAnnouncements.rejected, (_state, action) => {
+            console.log(action.error);
+        });
     }
 });
 

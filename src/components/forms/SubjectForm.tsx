@@ -36,7 +36,7 @@ const {
   return (
     <>
     <form className="flex flex-col gap-8" onSubmit={OnSubmit}>
-        <h1 className='xt-xl font-semibold'>{type === 'create' ? `Register new`: 'Update'} teacher</h1>
+        <h1 className='xt-xl font-semibold'>{type === 'create' ? `Register new`: 'Update'} subject</h1>
         <span className='text-xs font-semibold'>Subjects Information</span>
         <div className="flex flex-wrap gap-8">
           <FormInputField label='Subject name' type='text' register={register} name='name' error={errors.name} defaultValue={data?.name} inputProps={{placeholder: 'name'}}/>

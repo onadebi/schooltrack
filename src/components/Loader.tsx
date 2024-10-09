@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store/RootReducer";
+import { RootState } from "../app/store/storeKeeper";
 
 const Loader: React.FC = () => {
   const common = useSelector((state: RootState) => state.common);

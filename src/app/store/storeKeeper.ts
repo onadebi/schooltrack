@@ -7,4 +7,7 @@ const storeKeeper = configureStore({
     devTools: appsettings.env.includes('dev'),
 });
 
+export type RootState = ReturnType<typeof storeKeeper.getState>;
+export type AppDispatch = typeof storeKeeper.dispatch;
+
 export default storeKeeper;

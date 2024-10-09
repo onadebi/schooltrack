@@ -5,19 +5,19 @@ import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { SubjectInfoType } from '../../../models/dto/SubjectInfoType'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllSubjects } from '../../../store/slices/data/SubjectData.slice'
 
 const SubjectsPageList: React.FC = () => {
 
-    const [subjects, setSubjects] = React.useState<SubjectInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const subjectsData = useSelector((state: RootState) => state.subjects);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading Subjects...'}));
-        setSubjects(subjectsData);
+        dispatch(fetchAllSubjects());
         dispatch(setLoading({display: false, message: ''}));
     }, [dispatch, subjectsData]);
 
@@ -81,7 +81,7 @@ const SubjectsPageList: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={subjects.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={subjectsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

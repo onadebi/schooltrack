@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-const MessagesPage = () => {
+const MessagesPage: React.FC = () => {
   return (
     <div>MessagesPage</div>
   )

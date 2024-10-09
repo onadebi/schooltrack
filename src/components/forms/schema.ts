@@ -12,7 +12,7 @@ export const schema = z.object({
     phone: z.string().min(3, { message: 'Phone is required.' }),
     address: z.string().min(3, { message: 'Address is required.' }),
     bloodType: z.string().min(2, { message: 'Blood type is required.' }),
-    birthday: z.date({ message: 'Birthday is required.' }),
+    birthday: z.string({ message: 'Birth date is required.' }).refine(date => date > new Date().toISOString().split('T')[0], { message: 'Birth date is required.' }),
     sex: z.enum(["male","female"], {message: 'Gender is required.'}),
     dateEmployed: z.date({ message: 'Date employed is required.' }).default(() => new Date()),
     img: z.instanceof(File, {message: 'Image is required.'}),

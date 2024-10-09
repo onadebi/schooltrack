@@ -5,21 +5,21 @@ import Table from '../../../../components/Table'
 import { role } from '../../../data/lib/data'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/common/Common.slice'
-import { RootState } from '../../../store/RootReducer'
 import { AssignmentsInfoType } from '../../../models/dto/AssignmentsInfoType'
 import FormModal from '../../../../components/FormModal'
+import { AppDispatch, RootState } from '../../../store/storeKeeper'
+import { fetchAllAssignments } from '../../../store/slices/data/AssignmentsData.slice'
 
 const AssignmentsPage: React.FC = () => {
 
-    const [assignments, setAssignments] = React.useState<AssignmentsInfoType[]>([]);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const assignmentsData = useSelector((state: RootState) => state.assignments);
 
     React.useEffect(() => {
         dispatch(setLoading({display: true, message: 'Loading assignments...'}));
-        setAssignments(assignmentsData);
+        dispatch(fetchAllAssignments());
         dispatch(setLoading({display: false, message: ''}));
-    }, [dispatch, assignmentsData]);
+    }, [dispatch]);
 
     const columnHeaders =[
         {
@@ -96,7 +96,7 @@ const AssignmentsPage: React.FC = () => {
         </div>
 
         {/* LIST */}
-        <Table data={assignments.map((data) => renderRow(data))} column={columnHeaders} />
+        <Table data={assignmentsData.map((data) => renderRow(data))} column={columnHeaders} />
         {/* PAGINATION */}
         <Pagination />
     </div>

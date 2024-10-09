@@ -1,10 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { appServices } from "../../../services/appservices";
 import { SubjectInfoType } from "../../../models/dto/SubjectInfoType";
 
+export const fetchAllSubjects = createAsyncThunk(
+    'subjects/fetchAll',
+    async () => {
+        const response = await appServices.subjectsService.getAllSubjects();
+        return response;
+    }
+);
+
+
 export const SubjectDataSlice = createSlice({
     name: 'subjectDataSlice',
-    initialState: await appServices.subjectsService.getAllSubjects(),
+    initialState: [] as SubjectInfoType[],
     reducers: {
         setAllSubjects: (state, action: PayloadAction<SubjectInfoType[]>) => {
             state = action.payload;
@@ -15,7 +24,19 @@ export const SubjectDataSlice = createSlice({
             return state;
         },
 
-    }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchAllSubjects.pending, (state) => {
+            console.log('Loading subjects...', state);
+        })
+        .addCase(fetchAllSubjects.fulfilled, (state, action: PayloadAction<SubjectInfoType[]>) => {
+            state = action.payload;
+            return state;
+        })
+        .addCase(fetchAllSubjects.rejected, (_state, action) => {
+            console.log(action.error);
+        });
+    },
 });
 
 
