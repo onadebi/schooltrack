@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace SchoolTrack.Models;
 
 [Table("Admin")]
-public class Admin
+public class Admin: CommonEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SchoolTrack.Models;
 
-public class Announcement
+public class Announcement: CommonEntity
 {
     
 }
