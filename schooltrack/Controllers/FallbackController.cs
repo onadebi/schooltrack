@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace schooltrack.Controllers;
+namespace SchoolTrack.Controllers;
 
 [AllowAnonymous]
 public class FallbackController : Controller

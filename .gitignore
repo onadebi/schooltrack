@@ -484,8 +484,42 @@ $RECYCLE.BIN/
 *.swp
 
 
-# Ignore everything in the wwwroot folder
-schooltrack/wwwroot/*
+#region APP CUSTOM
 
+# Ignore everything in the wwwroot folder
+SchoolTrack/wwwroot/*
 # But do not ignore this specific file
-!schooltrack/wwwroot/robot.txt
+!SchoolTrack/wwwroot/robot.txt
+
+# Ignore launchSettings file
+# SchoolTrack/Properties/launchSettings.json
+schooltrack/Properties/launchSettings.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+.vs
+#endregion
+schooltrack/Properties/launchSettings.json
