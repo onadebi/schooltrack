@@ -492,8 +492,8 @@ SchoolTrack/wwwroot/*
 !SchoolTrack/wwwroot/robot.txt
 
 # Ignore launchSettings file
-SchoolTrack/Properties/launchSettings.json
-schooltrack/Properties/launchSettings.json
+#SchoolTrack/Properties/launchSettings.json
+# schooltrack/Properties/launchSettings.json
 
 # Logs
 logs
@@ -522,4 +522,4 @@ dist-ssr
 
 .vs
 #endregion
-/schooltrack/Properties/launchSettings.json
+# /schooltrack/Properties/launchSettings.json
