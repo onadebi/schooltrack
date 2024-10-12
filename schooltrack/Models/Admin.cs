@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SchoolTrack.Models.Enums;
 
 
 namespace SchoolTrack.Models;
@@ -12,4 +13,6 @@ public class Admin: CommonEntity
     public int Id { get; set; }
 
     public required string Username { get; set; }
+
+    public RolesEnum[] Roles { get; set; } =[];
 }

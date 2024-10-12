@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using SchoolTrack.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region ServiceExtensions
+string DbConString = Environment.GetEnvironmentVariable("DBConString",EnvironmentVariableTarget.Process) ?? string.Empty;
+string RedisConString = Environment.GetEnvironmentVariable("RedisConstring", EnvironmentVariableTarget.Process) ?? string.Empty;
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(DbConString, options => options.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
+});
+
+#endregion
+
 var app = builder.Build();
+
+
+try { app.SeedDefaultsData().Wait(); } catch (Exception ex) { OnaxTools.Logger.LogException(ex, "[SeedDefaultsData]"); }
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

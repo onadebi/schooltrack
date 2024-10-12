@@ -1,11 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SchoolTrack.Models;
 
-public class Grade
+[Table(nameof(Grade))]
+public class Grade: CommonEntity
 {
-    
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+
+    public required int Level { get; set; }
+
+    #region Relationships
+    public ICollection<SchoolClass> GradeClass { get; set; } = [];
+    public ICollection<Student> Students { get; set; } = [];
+    #endregion
+
 }
